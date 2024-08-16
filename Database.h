@@ -5,23 +5,29 @@
 #include "Employee.h"
 
 namespace Records {
-	const int kFirstEmployeeNumber = 1000;
+    const int kFirstEmployeeNumber = 1000;
 
-	class Database
-	{
-	public:
-		Employee& addEmployee(const std::string& firstName,
-							  const std::string& lastName);
-		Employee& getEmployee(int employeeNumber);
-		Employee& getEmployee(const std::string& firstName,
-							  const std::string& lastName);
+    class Database
+    {
+    public:
+        Employee& addEmployee(const std::string& firstName,
+                              const std::string& middleName,
+                              const std::string& lastName,
+                              const std::string& address); // Updated method signature
 
-		void displayAll() const;
-		void displayCurrent() const;
-		void displayFormer() const;
+        Employee& getEmployee(int employeeNumber);
+        Employee& getEmployee(const std::string& firstName,
+                              const std::string& lastName);
 
-	private:
-		std::vector<Employee> mEmployees;
-		int mNextEmployeeNumber = kFirstEmployeeNumber;
-	};
+        void displayAll() const;
+        void displayCurrent() const;
+        void displayFormer() const;
+
+        void generateNewDatabase(); // New method to generate 8,000 employees
+
+    private:
+        std::vector<Employee> mEmployees;
+        int mNextEmployeeNumber = kFirstEmployeeNumber;
+    };
 }
+
