@@ -22,7 +22,33 @@ namespace Records {
         return mEmployees[mEmployees.size() - 1];
     }
 
-    void Database::editEmployee(int employeeNumber) { // New method to edit employee
+    std::vector<Employee> Database::searchEmployees(const std::string& query, const std::string& field) const {
+        std::vector<Employee> results;
+
+        for (const auto& employee : mEmployees) {
+            if (field == "first") {
+                if (employee.getFirstName().find(query) != std::string::npos) {
+                    results.push_back(employee);
+                }
+            } else if (field == "middle") {
+                if (employee.getMiddleName().find(query) != std::string::npos) {
+                    results.push_back(employee);
+                }
+            } else if (field == "last") {
+                if (employee.getLastName().find(query) != std::string::npos) {
+                    results.push_back(employee);
+                }
+            } else if (field == "address") {
+                if (employee.getAddress().find(query) != std::string::npos) {
+                    results.push_back(employee);
+                }
+            }
+        }
+
+        return results;
+    }
+
+    void Database::editEmployee(int employeeNumber) {
         Employee& emp = getEmployee(employeeNumber);
 
         string newAddress;
@@ -173,6 +199,7 @@ namespace Records {
     }
 
 }
+
 
 
 
