@@ -14,7 +14,8 @@ void doPromote(Database& db);
 void generateDatabase(Database& db);
 void saveDatabaseToFile(const Database& db);
 void loadDatabaseFromFile(Database& db);
-void editEmployee(Database& db); // New function declaration
+void editEmployee(Database& db);
+void searchEmployees(Database& db); // New function declaration
 
 int main()
 {
@@ -57,7 +58,10 @@ int main()
             loadDatabaseFromFile(employeeDB);
             break;
         case 10:
-            editEmployee(employeeDB); // Edit employee details
+            editEmployee(employeeDB);
+            break;
+        case 11:
+            searchEmployees(employeeDB); // Search for employees
             break;
         default:
             cerr << "Unknown command." << endl;
@@ -84,7 +88,8 @@ int displayMenu()
     cout << "7) Generate new database" << endl;
     cout << "8) Save database to file" << endl;
     cout << "9) Load database from file" << endl;
-    cout << "10) Edit employee" << endl; // New menu option
+    cout << "10) Edit employee" << endl;
+    cout << "11) Search employee" << endl; // New menu option
     cout << "0) Quit" << endl;
     cout << endl;
     cout << "---> ";
@@ -94,14 +99,36 @@ int displayMenu()
     return selection;
 }
 
-void editEmployee(Database& db) // New function to edit employee details
+void searchEmployees(Database& db) // New function to search for employees
+{
+    string query;
+    string field;
+
+    cout << "Search by (first/middle/last/address): ";
+    cin >> field;
+    cout << "Enter search query: ";
+    cin.ignore();
+    getline(cin, query);
+
+    vector<Employee> results = db.searchEmployees(query, field);
+
+    if (results.empty()) {
+        cout << "No employees found matching the query." << endl;
+    } else {
+        for (const auto& employee : results) {
+            employee.display();
+        }
+    }
+}
+
+void editEmployee(Database& db)
 {
     int employeeNumber;
     cout << "Enter the employee number to edit: ";
     cin >> employeeNumber;
 
     try {
-        db.editEmployee(employeeNumber); // Call the edit function in the Database class
+        db.editEmployee(employeeNumber);
     } catch (const std::logic_error& exception) {
         cerr << "Unable to find employee: " << exception.what() << endl;
     }
