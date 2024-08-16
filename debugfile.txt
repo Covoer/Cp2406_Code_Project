@@ -1,0 +1,5 @@
+main(): started
+main(): started
+doHire(): Start
+doHire(): End
+main(): case 0

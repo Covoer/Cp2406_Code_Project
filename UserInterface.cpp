@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-#include <exception>
+#include "my_debugger.h"
 #include "Database.h"
 
 using namespace std;
@@ -10,54 +10,53 @@ int displayMenu();
 void doHire(Database& db);
 void doFire(Database& db);
 void doPromote(Database& db);
-void doDemote(Database& db);
+void generateDatabase(Database& db); // New function declaration
 
 int main()
 {
-	Database employeeDB;
+    log("started");
+    Database employeeDB;
 
-	bool done = false;
-	while (!done) {
-		int selection = displayMenu();
-		switch (selection) {
-		case 0:
-			done = true;
-			break;
-		case 1:
-			doHire(employeeDB);
-			break;
-		case 2:
-			doFire(employeeDB);
-			break;
-		case 3:
-			doPromote(employeeDB);
-			break;
-		case 4:
-			employeeDB.displayAll();
-			break;
-		case 5:
-			employeeDB.displayCurrent();
-			break;
-		case 6:
-			employeeDB.displayFormer();
-			break;
-		default:
-			cerr << "Unknown command." << endl;
-			break;
-		}
-	}
+    bool done = false;
+    while (!done) {
+        int selection = displayMenu();
+        switch (selection) {
+        case 0:
+            log("case 0");
+            done = true;
+            break;
+        case 1:
+            doHire(employeeDB);
+            break;
+        case 2:
+            doFire(employeeDB);
+            break;
+        case 3:
+            doPromote(employeeDB);
+            break;
+        case 4:
+            employeeDB.displayAll();
+            break;
+        case 5:
+            employeeDB.displayCurrent();
+            break;
+        case 6:
+            employeeDB.displayFormer();
+            break;
+        case 7:
+            generateDatabase(employeeDB); // Generate new database
+            break;
+        default:
+            cerr << "Unknown command." << endl;
+            break;
+        }
+    }
 
-	return 0;
+    return 0;
 }
 
 int displayMenu()
 {
-	// Note:
-	//		One important note is that this code assumes that the user will
-	//		"play nice" and type a number when a number is requested.
-	//		When you read about I/O in Chapter 13, you will learn how to
-	//		protect against bad input.
-
     int selection;
 
     cout << endl;
@@ -69,30 +68,46 @@ int displayMenu()
     cout << "4) List all employees" << endl;
     cout << "5) List all current employees" << endl;
     cout << "6) List all former employees" << endl;
+    cout << "7) Generate new database" << endl; // New option added to menu
     cout << "0) Quit" << endl;
     cout << endl;
     cout << "---> ";
     
-	cin >> selection;
+    cin >> selection;
     
-	return selection;
+    return selection;
 }
 
 void doHire(Database& db)
 {
+    log("Start");
+
     string firstName;
+    string middleName;  // New variable
     string lastName;
+    string address;     // New variable
 
     cout << "First name? ";
     cin >> firstName;
+
+    cout << "Middle name? ";  // Prompt for middle name
+    cin >> middleName;
+
     cout << "Last name? ";
     cin >> lastName;
-    
-    db.addEmployee(firstName, lastName);
+
+    cout << "Address? ";  // Prompt for address
+    cin.ignore();  // To clear any newline character left in the input buffer
+    getline(cin, address);  // Use getline to allow spaces in the address
+
+    db.addEmployee(firstName, middleName, lastName, address);  // Pass all arguments
+
+    log("End");
 }
 
 void doFire(Database& db)
 {
+    log("Start");
     int employeeNumber;
 
     cout << "Employee number? ";
@@ -105,10 +120,12 @@ void doFire(Database& db)
     } catch (const std::logic_error& exception) {
         cerr << "Unable to terminate employee: " << exception.what() << endl;
     }
+    log("End");
 }
 
 void doPromote(Database& db)
 {
+    log("Start");
     int employeeNumber;
     int raiseAmount;
 
@@ -123,4 +140,14 @@ void doPromote(Database& db)
     } catch (const std::logic_error& exception) {
         cerr << "Unable to promote employee: " << exception.what() << endl;
     }
+    log("End");
 }
+
+void generateDatabase(Database& db) // New function to generate the database
+{
+    log("Generating a new database with 8,000 employees.");
+    db.generateNewDatabase();
+    log("Database generation complete.");
+}
+
+
