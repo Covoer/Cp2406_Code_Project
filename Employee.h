@@ -21,14 +21,14 @@ namespace Records {
 		void setFirstName(const std::string& firstName);
 		const std::string& getFirstName() const;
 
-		void setMiddleName(const std::string& middleName); // New
-		const std::string& getMiddleName() const;          // New
+		void setMiddleName(const std::string& middleName);
+		const std::string& getMiddleName() const;
 
 		void setLastName(const std::string& lastName);
 		const std::string& getLastName() const;
 
-		void setAddress(const std::string& address); // New
-		const std::string& getAddress() const;       // New
+		void setAddress(const std::string& address);
+		const std::string& getAddress() const;
 
 		void setEmployeeNumber(int employeeNumber);
 		int getEmployeeNumber() const;
@@ -40,13 +40,11 @@ namespace Records {
 
 	private:
 		std::string mFirstName;
-		std::string mMiddleName; // New
+		std::string mMiddleName;
 		std::string mLastName;
-		std::string mAddress; // New
+		std::string mAddress;
 		int mEmployeeNumber = -1;
 		int mSalary = kDefaultStartingSalary;
 		bool mHired = false;
 	};
 }
-
-

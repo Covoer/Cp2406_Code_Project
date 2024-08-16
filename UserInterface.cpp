@@ -13,7 +13,8 @@ void doFire(Database& db);
 void doPromote(Database& db);
 void generateDatabase(Database& db);
 void saveDatabaseToFile(const Database& db);
-void loadDatabaseFromFile(Database& db); // New function declaration
+void loadDatabaseFromFile(Database& db);
+void editEmployee(Database& db); // New function declaration
 
 int main()
 {
@@ -53,7 +54,10 @@ int main()
             saveDatabaseToFile(employeeDB);
             break;
         case 9:
-            loadDatabaseFromFile(employeeDB); // Load database from a file
+            loadDatabaseFromFile(employeeDB);
+            break;
+        case 10:
+            editEmployee(employeeDB); // Edit employee details
             break;
         default:
             cerr << "Unknown command." << endl;
@@ -79,7 +83,8 @@ int displayMenu()
     cout << "6) List all former employees" << endl;
     cout << "7) Generate new database" << endl;
     cout << "8) Save database to file" << endl;
-    cout << "9) Load database from file" << endl; // New menu option
+    cout << "9) Load database from file" << endl;
+    cout << "10) Edit employee" << endl; // New menu option
     cout << "0) Quit" << endl;
     cout << endl;
     cout << "---> ";
@@ -87,6 +92,19 @@ int displayMenu()
     cin >> selection;
     
     return selection;
+}
+
+void editEmployee(Database& db) // New function to edit employee details
+{
+    int employeeNumber;
+    cout << "Enter the employee number to edit: ";
+    cin >> employeeNumber;
+
+    try {
+        db.editEmployee(employeeNumber); // Call the edit function in the Database class
+    } catch (const std::logic_error& exception) {
+        cerr << "Unable to find employee: " << exception.what() << endl;
+    }
 }
 
 void saveDatabaseToFile(const Database& db)
@@ -111,7 +129,7 @@ void saveDatabaseToFile(const Database& db)
     cout << "Database saved to " << filename << endl;
 }
 
-void loadDatabaseFromFile(Database& db) // New function to load database from a file
+void loadDatabaseFromFile(Database& db)
 {
     string filename;
     cout << "Enter the filename to load the database: ";
@@ -192,8 +210,3 @@ void generateDatabase(Database& db)
     db.generateNewDatabase();
     log("Database generation complete.");
 }
-
-
-
-
-

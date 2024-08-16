@@ -22,6 +22,41 @@ namespace Records {
         return mEmployees[mEmployees.size() - 1];
     }
 
+    void Database::editEmployee(int employeeNumber) { // New method to edit employee
+        Employee& emp = getEmployee(employeeNumber);
+
+        string newAddress;
+        cout << "Enter new address (leave empty to keep current): ";
+        cin.ignore();
+        getline(cin, newAddress);
+        if (!newAddress.empty()) {
+            emp.setAddress(newAddress);
+        }
+
+        int newSalary;
+        cout << "Enter new salary (enter 0 to keep current): ";
+        cin >> newSalary;
+        if (newSalary > 0) {
+            emp.setSalary(newSalary);
+        }
+
+        char changeStatus;
+        cout << "Change hire status? (y/n): ";
+        cin >> changeStatus;
+        if (changeStatus == 'y' || changeStatus == 'Y') {
+            char hireStatus;
+            cout << "Is the employee hired? (y/n): ";
+            cin >> hireStatus;
+            if (hireStatus == 'y' || hireStatus == 'Y') {
+                emp.hire();
+            } else {
+                emp.fire();
+            }
+        }
+
+        cout << "Employee " << employeeNumber << " updated." << endl;
+    }
+
     void Database::saveToFile(const std::string& filename) const {
         ofstream outFile(filename);
 
@@ -43,7 +78,7 @@ namespace Records {
         outFile.close();
     }
 
-    void Database::loadFromFile(const std::string& filename) { // New method to load the database
+    void Database::loadFromFile(const std::string& filename) {
         ifstream inFile(filename);
 
         if (!inFile) {
@@ -138,6 +173,7 @@ namespace Records {
     }
 
 }
+
 
 
 

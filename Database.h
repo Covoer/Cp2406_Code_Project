@@ -25,11 +25,12 @@ namespace Records {
 
         void generateNewDatabase();
         void saveToFile(const std::string& filename) const;
-        void loadFromFile(const std::string& filename); // New method to load the database
+        void loadFromFile(const std::string& filename);
+
+        void editEmployee(int employeeNumber); // New method to edit employee
 
     private:
         std::vector<Employee> mEmployees;
         int mNextEmployeeNumber = kFirstEmployeeNumber;
     };
 }
-
