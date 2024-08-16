@@ -26,7 +26,7 @@ int main()
     Database employeeDB;
 
     // Load users from file
-    employeeDB.loadUsersFromFile("../Cp2406_Code_Project/users.txt");
+    employeeDB.loadUsersFromFile("users.txt");
 
     User* loggedInUser = nullptr;
     string username, password;
