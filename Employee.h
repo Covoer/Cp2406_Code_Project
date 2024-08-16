@@ -15,14 +15,20 @@ namespace Records {
 		void demote(int demeritAmount = 1000);
 		void hire(); // Hires or rehires the employee
 		void fire(); // Dismisses the employee
-		void display() const;// Outputs employee info to console
+		void display() const; // Outputs employee info to console
 
 		// Getters and setters
 		void setFirstName(const std::string& firstName);
 		const std::string& getFirstName() const;
 
+		void setMiddleName(const std::string& middleName); // New
+		const std::string& getMiddleName() const;          // New
+
 		void setLastName(const std::string& lastName);
 		const std::string& getLastName() const;
+
+		void setAddress(const std::string& address); // New
+		const std::string& getAddress() const;       // New
 
 		void setEmployeeNumber(int employeeNumber);
 		int getEmployeeNumber() const;
@@ -34,10 +40,13 @@ namespace Records {
 
 	private:
 		std::string mFirstName;
+		std::string mMiddleName; // New
 		std::string mLastName;
+		std::string mAddress; // New
 		int mEmployeeNumber = -1;
 		int mSalary = kDefaultStartingSalary;
 		bool mHired = false;
 	};
 }
+
 
