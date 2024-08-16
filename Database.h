@@ -23,8 +23,9 @@ namespace Records {
         void displayCurrent() const;
         void displayFormer() const;
 
-        void generateNewDatabase(); // Method to generate 8,000 employees
-        void saveToFile(const std::string& filename) const; // Method to save the database
+        void generateNewDatabase();
+        void saveToFile(const std::string& filename) const;
+        void loadFromFile(const std::string& filename); // New method to load the database
 
     private:
         std::vector<Employee> mEmployees;

@@ -12,7 +12,8 @@ void doHire(Database& db);
 void doFire(Database& db);
 void doPromote(Database& db);
 void generateDatabase(Database& db);
-void saveDatabaseToFile(const Database& db); // New function declaration
+void saveDatabaseToFile(const Database& db);
+void loadDatabaseFromFile(Database& db); // New function declaration
 
 int main()
 {
@@ -49,7 +50,10 @@ int main()
             generateDatabase(employeeDB);
             break;
         case 8:
-            saveDatabaseToFile(employeeDB); // Save database to a file
+            saveDatabaseToFile(employeeDB);
+            break;
+        case 9:
+            loadDatabaseFromFile(employeeDB); // Load database from a file
             break;
         default:
             cerr << "Unknown command." << endl;
@@ -74,7 +78,8 @@ int displayMenu()
     cout << "5) List all current employees" << endl;
     cout << "6) List all former employees" << endl;
     cout << "7) Generate new database" << endl;
-    cout << "8) Save database to file" << endl; // New menu option
+    cout << "8) Save database to file" << endl;
+    cout << "9) Load database from file" << endl; // New menu option
     cout << "0) Quit" << endl;
     cout << endl;
     cout << "---> ";
@@ -84,29 +89,36 @@ int displayMenu()
     return selection;
 }
 
-void saveDatabaseToFile(const Database& db) // New function to save database to a file
+void saveDatabaseToFile(const Database& db)
 {
     string filename;
     cout << "Enter the filename to save the database: ";
     cin >> filename;
 
-    // Check if the file already exists
     ifstream inFile(filename);
     if (inFile) {
         char choice;
         cout << "File " << filename << " already exists. Overwrite? (y/n): ";
         cin >> choice;
 
-        // If user does not confirm, cancel the save operation
         if (choice != 'y' && choice != 'Y') {
             cout << "Save operation cancelled." << endl;
             return;
         }
     }
 
-    // Save the database to the specified file
     db.saveToFile(filename);
     cout << "Database saved to " << filename << endl;
+}
+
+void loadDatabaseFromFile(Database& db) // New function to load database from a file
+{
+    string filename;
+    cout << "Enter the filename to load the database: ";
+    cin >> filename;
+
+    db.loadFromFile(filename);
+    cout << "Database loaded from " << filename << endl;
 }
 
 void doHire(Database& db)
@@ -114,24 +126,24 @@ void doHire(Database& db)
     log("Start");
 
     string firstName;
-    string middleName;  // New variable
+    string middleName;
     string lastName;
-    string address;     // New variable
+    string address;
 
     cout << "First name? ";
     cin >> firstName;
 
-    cout << "Middle name? ";  // Prompt for middle name
+    cout << "Middle name? ";
     cin >> middleName;
 
     cout << "Last name? ";
     cin >> lastName;
 
-    cout << "Address? ";  // Prompt for address
-    cin.ignore();  // To clear any newline character left in the input buffer
-    getline(cin, address);  // Use getline to allow spaces in the address
+    cout << "Address? ";
+    cin.ignore();
+    getline(cin, address);
 
-    db.addEmployee(firstName, middleName, lastName, address);  // Pass all arguments
+    db.addEmployee(firstName, middleName, lastName, address);
 
     log("End");
 }
@@ -174,12 +186,13 @@ void doPromote(Database& db)
     log("End");
 }
 
-void generateDatabase(Database& db) // New function to generate the database
+void generateDatabase(Database& db)
 {
     log("Generating a new database with 8,000 employees.");
     db.generateNewDatabase();
     log("Database generation complete.");
 }
+
 
 
 

@@ -43,6 +43,37 @@ namespace Records {
         outFile.close();
     }
 
+    void Database::loadFromFile(const std::string& filename) { // New method to load the database
+        ifstream inFile(filename);
+
+        if (!inFile) {
+            cerr << "Error: Could not open file " << filename << " for reading." << endl;
+            return;
+        }
+
+        mEmployees.clear(); // Clear the current database before loading new data
+
+        string firstName, middleName, lastName, address, status;
+        int employeeNumber, salary;
+
+        while (inFile >> firstName >> middleName >> lastName >> address >> employeeNumber >> salary >> status) {
+            Employee theEmployee(firstName, lastName);
+            theEmployee.setMiddleName(middleName);
+            theEmployee.setAddress(address);
+            theEmployee.setEmployeeNumber(employeeNumber);
+            theEmployee.setSalary(salary);
+            if (status == "Hired") {
+                theEmployee.hire();
+            } else {
+                theEmployee.fire();
+            }
+            mEmployees.push_back(theEmployee);
+            mNextEmployeeNumber = employeeNumber + 1;
+        }
+
+        inFile.close();
+    }
+
     Employee& Database::getEmployee(int employeeNumber)
     {
         for (auto& employee : mEmployees) {
@@ -107,5 +138,6 @@ namespace Records {
     }
 
 }
+
 
 
