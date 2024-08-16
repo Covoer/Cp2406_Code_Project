@@ -1,0 +1,2 @@
+manager1 password123 Manager
+employee1 pass456 Employee

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Employee.h"
+#include "User.h"
 
 namespace Records {
     const int kFirstEmployeeNumber = 1000;
@@ -27,11 +28,21 @@ namespace Records {
         void saveToFile(const std::string& filename) const;
         void loadFromFile(const std::string& filename);
 
-        void editEmployee(int employeeNumber); // Edit employee details
-        std::vector<Employee> searchEmployees(const std::string& query, const std::string& field) const; // New method to search employees
+        void editEmployee(int employeeNumber);
+        std::vector<Employee> searchEmployees(const std::string& query, const std::string& field) const;
+
+        // User management functions
+        void createUser(const std::string& username, const std::string& password, const std::string& role);
+        void editUser(const std::string& username, const std::string& newPassword, const std::string& newRole);
+        void deleteUser(const std::string& username);
+        void saveUsersToFile(const std::string& filename) const;
+        void loadUsersFromFile(const std::string& filename);
+        User* authenticateUser(const std::string& username, const std::string& password);
 
     private:
         std::vector<Employee> mEmployees;
+        std::vector<User> mUsers; // List of users
         int mNextEmployeeNumber = kFirstEmployeeNumber;
     };
 }
+

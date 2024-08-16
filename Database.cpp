@@ -22,6 +22,83 @@ namespace Records {
         return mEmployees[mEmployees.size() - 1];
     }
 
+    void Database::createUser(const std::string& username, const std::string& password, const std::string& role) {
+        mUsers.push_back(User(username, password, role));
+    }
+
+    void Database::editUser(const std::string& username, const std::string& newPassword, const std::string& newRole) {
+        for (auto& user : mUsers) {
+            if (user.getUsername() == username) {
+                user.setPassword(newPassword);
+                user.setRole(newRole);
+                return;
+            }
+        }
+        throw std::logic_error("User not found.");
+    }
+
+    void Database::deleteUser(const std::string& username) {
+        for (auto it = mUsers.begin(); it != mUsers.end(); ++it) {
+            if (it->getUsername() == username) {
+                mUsers.erase(it);
+                return;
+            }
+        }
+        throw std::logic_error("User not found.");
+    }
+
+    void Database::saveUsersToFile(const std::string& filename) const {
+        ofstream outFile(filename);
+
+        if (!outFile) {
+            cerr << "Error: Could not open file " << filename << " for writing." << endl;
+            return;
+        }
+
+        for (const auto& user : mUsers) {
+            outFile << user.getUsername() << " "
+                    << user.getPassword() << " "
+                    << user.getRole() << endl;
+        }
+
+        outFile.close();
+    }
+
+    void Database::loadUsersFromFile(const std::string& filename) {
+        ifstream inFile(filename);
+
+        if (!inFile) {
+            cerr << "Warning: Could not open file " << filename << " for reading. Creating a new file." << endl;
+            ofstream outFile(filename); // Create the file
+            outFile.close();
+            return;
+        }
+
+        mUsers.clear();
+
+        string username, password, role;
+        while (inFile >> username >> password >> role) {
+            cout << "Loaded user: Username = " << username << ", Password = " << password << ", Role = " << role << endl;
+            mUsers.push_back(User(username, password, role));
+        }
+
+        inFile.close();
+    }
+
+    User* Database::authenticateUser(const std::string& username, const std::string& password) {
+        for (auto& user : mUsers) {
+            cout << "Checking username: " << user.getUsername() << " with input username: " << username << endl;
+            cout << "Checking password: " << user.getPassword() << " with input password: " << password << endl;
+
+            if (user.getUsername() == username && user.getPassword() == password) {
+                cout << "Authentication successful for user: " << username << endl;
+                return &user;
+            }
+        }
+        return nullptr;
+    }
+
+
     std::vector<Employee> Database::searchEmployees(const std::string& query, const std::string& field) const {
         std::vector<Employee> results;
 
