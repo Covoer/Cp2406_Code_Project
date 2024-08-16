@@ -90,18 +90,21 @@ void saveDatabaseToFile(const Database& db) // New function to save database to 
     cout << "Enter the filename to save the database: ";
     cin >> filename;
 
+    // Check if the file already exists
     ifstream inFile(filename);
     if (inFile) {
         char choice;
         cout << "File " << filename << " already exists. Overwrite? (y/n): ";
         cin >> choice;
 
+        // If user does not confirm, cancel the save operation
         if (choice != 'y' && choice != 'Y') {
             cout << "Save operation cancelled." << endl;
             return;
         }
     }
 
+    // Save the database to the specified file
     db.saveToFile(filename);
     cout << "Database saved to " << filename << endl;
 }
@@ -177,6 +180,7 @@ void generateDatabase(Database& db) // New function to generate the database
     db.generateNewDatabase();
     log("Database generation complete.");
 }
+
 
 
 
