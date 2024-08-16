@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <stdexcept>
 #include "my_debugger.h"
 #include "Database.h"
@@ -10,7 +11,8 @@ int displayMenu();
 void doHire(Database& db);
 void doFire(Database& db);
 void doPromote(Database& db);
-void generateDatabase(Database& db); // New function declaration
+void generateDatabase(Database& db);
+void saveDatabaseToFile(const Database& db); // New function declaration
 
 int main()
 {
@@ -44,7 +46,10 @@ int main()
             employeeDB.displayFormer();
             break;
         case 7:
-            generateDatabase(employeeDB); // Generate new database
+            generateDatabase(employeeDB);
+            break;
+        case 8:
+            saveDatabaseToFile(employeeDB); // Save database to a file
             break;
         default:
             cerr << "Unknown command." << endl;
@@ -68,7 +73,8 @@ int displayMenu()
     cout << "4) List all employees" << endl;
     cout << "5) List all current employees" << endl;
     cout << "6) List all former employees" << endl;
-    cout << "7) Generate new database" << endl; // New option added to menu
+    cout << "7) Generate new database" << endl;
+    cout << "8) Save database to file" << endl; // New menu option
     cout << "0) Quit" << endl;
     cout << endl;
     cout << "---> ";
@@ -76,6 +82,28 @@ int displayMenu()
     cin >> selection;
     
     return selection;
+}
+
+void saveDatabaseToFile(const Database& db) // New function to save database to a file
+{
+    string filename;
+    cout << "Enter the filename to save the database: ";
+    cin >> filename;
+
+    ifstream inFile(filename);
+    if (inFile) {
+        char choice;
+        cout << "File " << filename << " already exists. Overwrite? (y/n): ";
+        cin >> choice;
+
+        if (choice != 'y' && choice != 'Y') {
+            cout << "Save operation cancelled." << endl;
+            return;
+        }
+    }
+
+    db.saveToFile(filename);
+    cout << "Database saved to " << filename << endl;
 }
 
 void doHire(Database& db)
@@ -149,5 +177,6 @@ void generateDatabase(Database& db) // New function to generate the database
     db.generateNewDatabase();
     log("Database generation complete.");
 }
+
 
 

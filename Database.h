@@ -13,7 +13,7 @@ namespace Records {
         Employee& addEmployee(const std::string& firstName,
                               const std::string& middleName,
                               const std::string& lastName,
-                              const std::string& address); // Updated method signature
+                              const std::string& address);
 
         Employee& getEmployee(int employeeNumber);
         Employee& getEmployee(const std::string& firstName,
@@ -23,7 +23,8 @@ namespace Records {
         void displayCurrent() const;
         void displayFormer() const;
 
-        void generateNewDatabase(); // New method to generate 8,000 employees
+        void generateNewDatabase(); // Method to generate 8,000 employees
+        void saveToFile(const std::string& filename) const; // Method to save the database
 
     private:
         std::vector<Employee> mEmployees;

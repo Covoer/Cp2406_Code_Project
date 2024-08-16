@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <stdexcept>
 #include "Database.h"
 
@@ -7,18 +8,39 @@ using namespace std;
 namespace Records {
 
     Employee& Database::addEmployee(const string& firstName,
-                                    const string& middleName, // Added middle name
+                                    const string& middleName,
                                     const string& lastName,
-                                    const string& address) // Added address
+                                    const string& address)
     {
         Employee theEmployee(firstName, lastName);
-        theEmployee.setMiddleName(middleName); // Set middle name
-        theEmployee.setAddress(address);       // Set address
+        theEmployee.setMiddleName(middleName);
+        theEmployee.setAddress(address);
         theEmployee.setEmployeeNumber(mNextEmployeeNumber++);
         theEmployee.hire();
         mEmployees.push_back(theEmployee);
 
         return mEmployees[mEmployees.size() - 1];
+    }
+
+    void Database::saveToFile(const std::string& filename) const {
+        ofstream outFile(filename);
+
+        if (!outFile) {
+            cerr << "Error: Could not open file " << filename << " for writing." << endl;
+            return;
+        }
+
+        for (const auto& employee : mEmployees) {
+            outFile << employee.getFirstName() << " "
+                    << employee.getMiddleName() << " "
+                    << employee.getLastName() << " "
+                    << employee.getAddress() << " "
+                    << employee.getEmployeeNumber() << " "
+                    << employee.getSalary() << " "
+                    << (employee.isHired() ? "Hired" : "Fired") << endl;
+        }
+
+        outFile.close();
     }
 
     Employee& Database::getEmployee(int employeeNumber)
@@ -85,4 +107,5 @@ namespace Records {
     }
 
 }
+
 
